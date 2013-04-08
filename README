@@ -1,0 +1,11 @@
+Užduoties aprašymas 
+===================
+Padaryti XP taskų ir storių trackerį.
+Storiai ir taskai estimuojami atskirai, o sugaištas laikas registruojamas taskams.
+Taskams galima pridėti po kelis įrašus sugaišto laiko. 
+Storių sugaištas laikas skaičiuojamas susumavus taskų sugaištą laką.
+Taskas turi lauką 'developeris' ir 'iteracija', aplikacija skaičiuoja ir
+apibendrina visų developerių estimuotą ir realiai atliktą darbą.
+Developeriai pasirenkami iš dropdowno.
+
+Atlikti tai reikia Pyramid platformoje, su unit testais ir funkciniais testais.
