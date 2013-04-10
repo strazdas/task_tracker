@@ -7,6 +7,7 @@ run:
 	../bin/pserve development.ini --reload
 
 db:
+	rm task_tracker.sqlite || true
 	../bin/initialize_task_tracker_db development.ini
 
 test:
