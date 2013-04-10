@@ -1,6 +1,5 @@
 Simple task tracking app to plan and log execution times for extreme
-programming tasks. This project is created for learning purposes only. It uses
-Traversal URL mapping technique, zodb, unit and functional tests. 
+programming tasks. This project is created for learning purposes only.
 
 
 Usage
