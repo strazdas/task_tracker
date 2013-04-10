@@ -9,43 +9,55 @@ from .models import (
     )
 
 
-@view_config(route_name='home', renderer='templates/mytemplate.pt')
-def my_view(request):
-    try:
-        one = DBSession.query(MyModel).filter(MyModel.name == 'one').first()
-    except DBAPIError:
-        return Response(conn_err_msg, content_type='text/plain', status_int=500)
-    return {'one': one, 'project': 'task_tracker'}
+@view_config(route_name='story_list', renderer='templates/story_list.pt')
+def story_list(request):
+    stories = [4,6,3]   # Story list STUB
+    return {'stories': stories}
 
 
-@view_config(route_name='story_details', renderer='templates/mytemplate.pt')
-def story_view(context, request):
-    return {'project': 'Story details will be here %s' % context.story_id}
+@view_config(route_name='add_story', renderer='templates/message.pt')
+def add_story(request):
+    return {'message': 'Create new Story..'}
 
 
-@view_config(route_name='task_details', renderer='templates/mytemplate.pt')
-def task_view(context, request):
-    return {'project': 'Task (story %s) %s details' % (context.story_id, context.task_id)}
+@view_config(route_name='view_story', renderer='templates/message.pt')
+def view_story(request):
+    story_id = request.matchdict['story_id']
+    return {'message': 'View story %s' % story_id}
 
 
-@view_config(route_name='stats', renderer='templates/mytemplate.pt')
-def stats_view(context, request):
-    return {'project': 'Stats for some ppl'}
+@view_config(route_name='edit_story', renderer='templates/message.pt')
+def edit_story(request):
+    story_id = request.matchdict['story_id']
+    return {'message': 'Editing story %s' % story_id}
 
 
-conn_err_msg = """\
-Pyramid is having a problem using your SQL database.  The problem
-might be caused by one of the following things:
+@view_config(route_name='add_task', renderer='templates/message.pt')
+def story_view(request):
+    story_id = request.matchdict['story_id']
+    return {'message': 'Creating new task for story %s' % story_id}
 
-1.  You may need to run the "initialize_task_tracker_db" script
-    to initialize your database tables.  Check your virtual 
-    environment's "bin" directory for this script and try to run it.
 
-2.  Your database server may not be running.  Check that the
-    database server referred to by the "sqlalchemy.url" setting in
-    your "development.ini" file is running.
+@view_config(route_name='view_task', renderer='templates/message.pt')
+def view_task(request):
+    story_id = request.matchdict['story_id']
+    task_id = request.matchdict['task_id']
+    return {'message': 'View task %s of story %s' % (task_id, story_id)}
 
-After you fix the problem, please restart the Pyramid application to
-try it again.
-"""
 
+@view_config(route_name='edit_task', renderer='templates/message.pt')
+def edit_task(request):
+    story_id = request.matchdict['story_id']
+    task_id = request.matchdict['task_id']
+    return {'message': 'Edit task %s of story %s' % (task_id, story_id)}
+
+
+@view_config(route_name='stats', renderer='templates/message.pt')
+def stats(request):
+    return {'message': 'stats'}
+
+
+@view_config(route_name='view_stats', renderer='templates/message.pt')
+def view_stats(request):
+    username = request.matchdict['username']
+    return {'message': 'Viewing stats for user %s' % username}
