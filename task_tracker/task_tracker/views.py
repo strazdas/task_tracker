@@ -17,6 +17,22 @@ def my_view(request):
         return Response(conn_err_msg, content_type='text/plain', status_int=500)
     return {'one': one, 'project': 'task_tracker'}
 
+
+@view_config(route_name='story_details', renderer='templates/mytemplate.pt')
+def story_view(context, request):
+    return {'project': 'Story details will be here %s' % context.story_id}
+
+
+@view_config(route_name='task_details', renderer='templates/mytemplate.pt')
+def task_view(context, request):
+    return {'project': 'Task (story %s) %s details' % (context.story_id, context.task_id)}
+
+
+@view_config(route_name='stats', renderer='templates/mytemplate.pt')
+def stats_view(context, request):
+    return {'project': 'Stats for some ppl'}
+
+
 conn_err_msg = """\
 Pyramid is having a problem using your SQL database.  The problem
 might be caused by one of the following things:
