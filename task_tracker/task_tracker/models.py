@@ -12,8 +12,7 @@ class User(Base):
     __tablename__ = 'user'
     id = Column(Integer, primary_key=True)
     stories = relationship("Story", backref="created_by")
-    created_tasks = relationship("Task", backref="created_by")
-    assigned_tasks = relationship("Task", backref="assigned")
+    tasks = relationship("Task", backref="assigned")
 
 
 class Story(Base):
@@ -35,5 +34,4 @@ class Task(Base):
     estimated = Column(Text, nullable=True)
     created = Column(DateTime)
     assigned_id = Column(Integer, ForeignKey('user.id'), nullable=True)
-    created_by_id = Column(Integer, ForeignKey('user.id'), nullable=True)
     story_id = Column(Integer, ForeignKey('story.id'))

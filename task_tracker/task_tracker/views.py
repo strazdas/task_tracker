@@ -9,7 +9,6 @@ from datetime import datetime
 
 from .models import (
     DBSession,
-    MyModel,
     User,
     Story,
     )
