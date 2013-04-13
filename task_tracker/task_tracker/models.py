@@ -28,12 +28,7 @@ class User(Base):
 class Story(Base):
     __tablename__ = 'story'
     id = Column(Integer, primary_key=True)
-    title = Column(Text, unique=True)
-    estimated_string = Column(Text)
-    created = Column(DateTime)
-    created_by_id = Column(Integer, ForeignKey('user.id'))
-
-    # @hybrid_property
-    # def estimated(self):
-    #     # Convert time delta object
-    #     return self.estimated_string
+    title = Column(Text)  # TODO: use unique=True and create form validator
+    estimated = Column(Text, nullable=True)
+    created = Column(DateTime, nullable=True)
+    created_by_id = Column(Integer, ForeignKey('user.id'), nullable=True)
