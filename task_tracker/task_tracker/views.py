@@ -5,6 +5,7 @@ from pyramid_simpleform.renderers import FormRenderer
 from pyramid.httpexceptions import HTTPFound
 
 from sqlalchemy.exc import DBAPIError
+from datetime import datetime
 
 from .models import (
     DBSession,
@@ -32,6 +33,7 @@ def add_story(request):
 
     if form.validate():
         obj = form.bind(Story())
+        obj.created = datetime.now()
         DBSession.add(obj)
         DBSession.flush()
         return HTTPFound(location='/story/%s' % obj.id)
