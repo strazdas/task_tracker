@@ -49,6 +49,9 @@ def edit_story(request):
     story_id = request.matchdict['story_id']
     story = DBSession.query(Story).get(story_id)
     form = Form(request, schema=StorySchema(), obj=story)
+    if request.method == 'POST' and form.validate():
+        story = form.bind(story)
+        return HTTPFound(location='/story/%s' % story.id)
     return {
         'renderer': FormRenderer(form),
         'form': form,
