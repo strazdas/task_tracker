@@ -39,9 +39,7 @@ def add_story(request):
         return HTTPFound(location='/story/%s' % obj.id)
     return {
         'renderer': FormRenderer(form),
-        'request': request,
         'form': form,
-        'erorrs': form.errors
     }
 
 
