@@ -1,0 +1,20 @@
+{% extends "templates/base.jinja2" %}
+{% block content %}
+    <form method='POST'>
+        {{ renderer.csrf_token() }}
+        <h1>Update Story</h1>
+        {% if form.errors %}
+            <ul>
+            {% for field, error in form.errors.items() %}
+                <li>{{ field }}: <text style='color:red'>{{ error }}</text></li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+        <ul>
+            <li>Title: {{ renderer.text('title', size=20) }}</li>
+            <li>Estimated: {{ renderer.text('estimated', size=8) }}</li>
+            <li>Description:<br> {{ renderer.textarea('description',cols=49, rows=6) }}</li>
+        {{ renderer.submit("submit", "Update") }}
+        </ul>
+    </form>
+{% endblock %}
