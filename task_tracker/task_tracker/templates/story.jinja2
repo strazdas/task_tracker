@@ -1,6 +1,7 @@
 {% extends "templates/base.jinja2" %}
 {% block content %}
     {% if story %}
+    <ul> <h3>Story</h3> </ul>
         <table border="0">
             <tr><td align='right'>ID: </td> <td>{{ story.id }}
             <a href="/story/{{ story.id }}/edit"><button>Edit</button></a></td></tr>
@@ -9,12 +10,30 @@
             <tr><td align='right'>Created: </td> <td>{{ story.created }}</td></tr>
             <tr><td align='right'>Created by: </td> <td>{{ story.created_by }}</td></tr>
             <tr><td align='right'>Description: </td> <td>{{ story.description }}</td></tr>
-            <tr><td align='right'>Tasks: </td> <td><a
-            href='/new/task/{{story_id}}'><button>New task</button></a> </td></tr>
+            <tr><td align='right'>Tasks: </td> <td></td></tr>
             {% for task in tasks %}
                 <tr><td align='right'></td><td><a href="/story/{{story_id}}/task/{{task.id}}">{{ task.title }}</a></td></tr>
             {% endfor %}
         </table>
+
+        <form method='POST'>
+            {{ renderer.csrf_token() }}
+            {% if form.errors %}
+                <ul>
+                {% for field, error in form.errors.items() %}
+                    <li>{{ field }}: <text style='color:red'>{{ error }}</text></li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+            <ul>
+                <h4>New task</h4>
+                <li>Title: {{ renderer.text('title', size=20) }}</li>
+                <li>Estimated: {{ renderer.text('estimated', size=8) }}</li>
+                <li>Description:<br> {{ renderer.textarea('description',cols=49, rows=6) }}</li>
+            {{ renderer.submit("submit", "Add new task") }}
+            </ul>
+        </form>
+
     {% else %}
         Story with id="{{ story_id }}" does not exist, but you can <a href="/new/story">create a new story</a>.
     {% endif %}

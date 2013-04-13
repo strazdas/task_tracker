@@ -3,6 +3,7 @@ from pyramid.view import view_config
 from pyramid_simpleform import Form
 from pyramid_simpleform.renderers import FormRenderer
 from pyramid.httpexceptions import HTTPFound
+from pyramid.request import Request
 
 from sqlalchemy.exc import DBAPIError
 from datetime import datetime
@@ -13,7 +14,7 @@ from .models import (
     Story,
     Task,
     )
-from .forms import StorySchema
+from .forms import StorySchema, TaskSchema
 
 
 @view_config(route_name='story_list', renderer='templates/story_list.jinja2')
@@ -42,7 +43,18 @@ def view_story(request):
     story_id = request.matchdict['story_id']
     story = DBSession.query(Story).filter(Story.id==story_id).first()
     tasks = DBSession.query(Task).filter(story_id==story_id).all()
-    return {'story': story, 'story_id': story_id, 'tasks': tasks}
+    task_form = Form(request, schema=TaskSchema())
+    if request.method == 'POST' and task_form.validate():
+        task = task_form.bind(Task())
+        DBSession.add(task)
+        return HTTPFound(location='/story/%s' % story_id)
+    return {
+        'story': story,
+        'story_id': story_id,
+        'tasks': tasks,
+        'renderer': FormRenderer(task_form),
+        'form': task_form,
+    }
 
 
 @view_config(route_name='edit_story', renderer='templates/edit_story.jinja2')
@@ -62,6 +74,22 @@ def edit_story(request):
 @view_config(route_name='add_task', renderer='templates/message.pt')
 def add_task(request):
     story_id = request.matchdict['story_id']
+
+    form = Form(request, schema=TaskSchema())
+    if form.validate():
+        task = form.bind(Task())
+        task.created = datetime.now()
+        # Set story as parent.
+        task.story_id = story_id
+        DBSession.add(task)
+        DBSession.flush()
+        return HTTPFound(location='/story/%s' % task.id)
+    return {
+        'renderer': FormRenderer(form),
+        'form': form,
+    }
+
+
     return {'message': 'Creating new task for story %s' % story_id}
 
 
