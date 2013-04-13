@@ -16,14 +16,11 @@ from .models import (
 from .forms import StorySchema
 
 
-@view_config(route_name='story_list', renderer='templates/story_list.pt')
+@view_config(route_name='story_list', renderer='templates/story_list.jinja2')
 def story_list(request):
-    stories = [4,6,3]   # Story list STUB
-    try:
-        one = DBSession.query(MyModel).filter(MyModel.name == 'one').first()
-    except DBAPIError:
-        one = None
-    return {'one': one, 'stories': stories}
+    stories = None
+    stories = DBSession.query(Story).all()
+    return {'stories': stories}
 
 
 
