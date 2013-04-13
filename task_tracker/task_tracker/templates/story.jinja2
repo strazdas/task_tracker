@@ -7,6 +7,7 @@
             <tr><td align='right'>Estimated: </td> <td>{{ story.estimated }}</td></tr>
             <tr><td align='right'>Created: </td> <td>{{ story.created }}</td></tr>
             <tr><td align='right'>Created by: </td> <td>{{ story.created_by }}</td></tr>
+            <tr><td align='right'>Description: </td> <td>{{ story.description }}</td></tr>
         </table>
     {% else %}
         Story with id="{{ story_id }}" does not exist, but you can <a href="/new/story">create a new story</a>.

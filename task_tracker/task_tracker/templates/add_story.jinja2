@@ -3,16 +3,14 @@
     <p>{{ form.errors }}</p>
     <p>{{ request }}</p>
 
-    {% if story %}
-        Created: {{ story.title }}
-    {% endif %}
-
     <form method='POST'>
         {{ renderer.csrf_token() }}
         <h1>Create new Story</h1>
         <ul>
             {{ renderer.errors }}
             <li>Title: {{ renderer.text('title', size=20) }}</li>
+            <li>Estimated: {{ renderer.text('estimated', size=8) }}</li>
+            <li>Description:<br> {{ renderer.textarea('description',cols=49, rows=6) }}</li>
         </ul>
         {{ renderer.submit("submit", "Create") }}
     </form>

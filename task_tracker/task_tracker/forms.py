@@ -6,3 +6,5 @@ class StorySchema(Schema):
     filter_extra_fields = True
 
     title = validators.UnicodeString(max=255)
+    description= validators.UnicodeString()
+    estimated = validators.UnicodeString(max=255)
