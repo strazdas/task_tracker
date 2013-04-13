@@ -21,7 +21,6 @@ def main(global_config, **settings):
     config.add_route('add_story', '/new/story')
     config.add_route('view_story', '/story/{story_id}')
     config.add_route('edit_story', '/story/{story_id}/edit')
-    config.add_route('add_task', '/new/task/{story_id}')
     config.add_route('view_task', '/story/{story_id}/task/{task_id}')
     config.add_route('edit_task', '/story/{story_id}/task/{task_id}/edit')
     config.add_route('stats', '/stats')

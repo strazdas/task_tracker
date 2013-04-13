@@ -73,27 +73,6 @@ def edit_story(request):
     }
 
 
-@view_config(route_name='add_task', renderer='templates/message.pt')
-def add_task(request):
-    story_id = request.matchdict['story_id']
-
-    form = Form(request, schema=TaskSchema())
-    if form.validate():
-        task = form.bind(Task())
-        task.created = datetime.now()
-        # Set story as parent.
-        task.story_id = story_id
-        DBSession.add(task)
-        DBSession.flush()
-        return HTTPFound(location='/story/%s' % task.id)
-    return {
-        'renderer': FormRenderer(form),
-        'form': form,
-    }
-
-
-    return {'message': 'Creating new task for story %s' % story_id}
-
 
 @view_config(route_name='view_task', renderer='templates/message.pt')
 def view_task(request):
