@@ -18,3 +18,10 @@ class TaskSchema(Schema):
     title = validators.UnicodeString(max=255, min=1)
     description= validators.UnicodeString()
     estimated = validators.UnicodeString(max=255)
+
+
+class TimeSpentSchema(Schema):
+    allow_extra_fields = True
+    filter_extra_fields = True
+
+    duration = validators.UnicodeString(max=30, min=1)

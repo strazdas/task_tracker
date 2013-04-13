@@ -14,7 +14,7 @@ from .models import (
     Story,
     Task,
     )
-from .forms import StorySchema, TaskSchema
+from .forms import StorySchema, TaskSchema, TimeSpentSchema
 
 
 @view_config(route_name='story_list', renderer='templates/story_list.jinja2')
@@ -73,12 +73,21 @@ def edit_story(request):
     }
 
 
-
-@view_config(route_name='view_task', renderer='templates/message.pt')
+@view_config(route_name='view_task', renderer='templates/task.jinja2')
 def view_task(request):
     story_id = request.matchdict['story_id']
+    story = DBSession.query(Story).get(story_id)
     task_id = request.matchdict['task_id']
-    return {'message': 'View task %s of story %s' % (task_id, story_id)}
+    task = DBSession.query(Task).get(task_id)
+    form = Form(request, schema=TimeSpentSchema())
+    if request.method == 'POST' and form.validate():
+        pass
+    return {
+        'story': story,
+        'task': task,
+        'renderer': FormRenderer(form),
+        'form': form,
+    }
 
 
 @view_config(route_name='edit_task', renderer='templates/message.pt')

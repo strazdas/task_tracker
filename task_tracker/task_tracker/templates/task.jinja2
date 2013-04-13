@@ -1,0 +1,38 @@
+{% extends "templates/base.jinja2" %}
+{% block content %}
+    {% if task %}
+    <ul> <h3>Task</h3> </ul>
+        <table border="0">
+            <tr><td align='right'>ID: </td> <td>{{ task.id }}
+            <a href="/task/{{ task.id }}/edit"><button>Edit</button></a></td></tr>
+            <tr><td align='right'>Title: </td> <td>{{ task.title }}</td></tr>
+            <tr><td align='right'>Story title: </td> <td>{{ story.title }}</td></tr>
+            <tr><td align='right'>Estimated: </td> <td>{{ task.estimated }}</td></tr>
+            <tr><td align='right'>Created: </td> <td>{{ task.created }}</td></tr>
+            <tr><td align='right'>Created by: </td> <td>{{ task.created_by }}</td></tr>
+            <tr><td align='right'>Description: </td> <td>{{ task.description }}</td></tr>
+            <tr><td align='right'>Times spent: </td> <td>
+            {% for time_spent in times_spent %}
+                {{ time_spent.duration }}, 
+            {% endfor %} 
+            </td></tr>
+        </table>
+
+        <form method='POST'>
+            {{ renderer.csrf_token() }}
+            {% if form.errors %}
+                <ul>
+                {% for field, error in form.errors.items() %}
+                    <li>{{ field }}: <text style='color:red'>{{ error }}</text></li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+            {{ renderer.text('duration', size=8) }}
+            {{ renderer.submit("submit", "Add time spent") }}
+        </form>
+
+    {% else %}
+        Task with id="{{ task_id }}" for story with id="{{ story_id }}" does
+    not exist, but you can add <a href="/story/{{ task_id }}">a new one</a>.
+    {% endif %}
+{% endblock %}
