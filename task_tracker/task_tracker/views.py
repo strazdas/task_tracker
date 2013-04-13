@@ -42,10 +42,12 @@ def add_story(request):
 def view_story(request):
     story_id = request.matchdict['story_id']
     story = DBSession.query(Story).filter(Story.id==story_id).first()
-    tasks = DBSession.query(Task).filter(story_id==story_id).all()
+    tasks = DBSession.query(Task).filter(Task.story_id==story_id).all()
     task_form = Form(request, schema=TaskSchema())
     if request.method == 'POST' and task_form.validate():
         task = task_form.bind(Task())
+        task.story = story
+        task.story_id = story_id
         DBSession.add(task)
         return HTTPFound(location='/story/%s' % story_id)
     return {
