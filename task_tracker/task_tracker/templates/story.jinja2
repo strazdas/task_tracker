@@ -9,6 +9,11 @@
             <tr><td align='right'>Created: </td> <td>{{ story.created }}</td></tr>
             <tr><td align='right'>Created by: </td> <td>{{ story.created_by }}</td></tr>
             <tr><td align='right'>Description: </td> <td>{{ story.description }}</td></tr>
+            <tr><td align='right'>Tasks: </td> <td><a
+            href='/new/task/{{story_id}}'><button>New task</button></a> </td></tr>
+            {% for task in tasks %}
+                <tr><td align='right'></td><td><a href="/story/{{story_id}}/task/{{task.id}}">{{ task.title }}</a></td></tr>
+            {% endfor %}
         </table>
     {% else %}
         Story with id="{{ story_id }}" does not exist, but you can <a href="/new/story">create a new story</a>.

@@ -11,6 +11,7 @@ from .models import (
     DBSession,
     User,
     Story,
+    Task,
     )
 from .forms import StorySchema
 
@@ -40,7 +41,8 @@ def add_story(request):
 def view_story(request):
     story_id = request.matchdict['story_id']
     story = DBSession.query(Story).filter(Story.id==story_id).first()
-    return {'story': story, 'story_id': story_id }
+    tasks = DBSession.query(Task).filter(story_id==story_id).all()
+    return {'story': story, 'story_id': story_id, 'tasks': tasks}
 
 
 @view_config(route_name='edit_story', renderer='templates/edit_story.jinja2')
