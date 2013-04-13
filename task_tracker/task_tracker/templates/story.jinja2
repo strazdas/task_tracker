@@ -1,14 +1,13 @@
 {% extends "templates/base.jinja2" %}
 {% block content %}
-    <ul>
-        {% if story %}
-        <li>{{ story.id }}</li>
-        <li>{{ story.title }}</li>
-        <li>{{ story.estimated_string }}</li>
-        <li>{{ story.created }}</li>
-        <li>{{ story.created_by_id }}</li>
-        {% else %}
+    {% if story %}
+        <table border="0">
+            <tr><td align='right'>ID: </td> <td>{{ story.id }}</td></tr>
+            <tr><td align='right'>Title: </td> <td>{{ story.title }}</td></tr>
+            <tr><td align='right'>Created: </td> <td>{{ story.created }}</td></tr>
+            <tr><td align='right'>Created by: </td> <td>{{ story.created_by }}</td></tr>
+        </table>
+    {% else %}
         Story with id="{{ story_id }}" does not exist, but you can <a href="/new/story">create a new story</a>.
-        {% endif %}
-    </ul>
+    {% endif %}
 {% endblock %}
