@@ -2,7 +2,8 @@
 {% block content %}
     {% if story %}
         <table border="0">
-            <tr><td align='right'>ID: </td> <td>{{ story.id }}</td></tr>
+            <tr><td align='right'>ID: </td> <td>{{ story.id }}
+            <a href="/story/{{ story.id }}/edit"><button>Edit</button></a></td></tr>
             <tr><td align='right'>Title: </td> <td>{{ story.title }}</td></tr>
             <tr><td align='right'>Estimated: </td> <td>{{ story.estimated }}</td></tr>
             <tr><td align='right'>Created: </td> <td>{{ story.created }}</td></tr>
