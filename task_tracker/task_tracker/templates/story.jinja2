@@ -14,12 +14,16 @@
   <![endif]-->
 </head>
 <body>
-
-    Story list goes here..
-    <ul tal:repeat="story stories">
-        <li>${story}</li>
+    <ul>
+        {% if story %}
+        <li>{{ story.id }}</li>
+        <li>{{ story.title }}</li>
+        <li>{{ story.estimated_string }}</li>
+        <li>{{ story.created }}</li>
+        <li>{{ story.created_by_id }}</li>
+        {% else %}
+        Story with id="{{ story_id }}" does not exist, but you can <a href="/new/story">create a new story</a>.
+        {% endif %}
     </ul>
-    And ${one}
-
 </body>
 </html>

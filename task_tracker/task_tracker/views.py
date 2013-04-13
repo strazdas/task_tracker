@@ -6,13 +6,19 @@ from sqlalchemy.exc import DBAPIError
 from .models import (
     DBSession,
     MyModel,
+    User,
+    Story,
     )
 
 
 @view_config(route_name='story_list', renderer='templates/story_list.pt')
 def story_list(request):
     stories = [4,6,3]   # Story list STUB
-    return {'stories': stories}
+    try:
+        one = DBSession.query(MyModel).filter(MyModel.name == 'one').first()
+    except DBAPIError:
+        one = None
+    return {'one': one, 'stories': stories}
 
 
 @view_config(route_name='add_story', renderer='templates/message.pt')
@@ -20,10 +26,11 @@ def add_story(request):
     return {'message': 'Create new Story..'}
 
 
-@view_config(route_name='view_story', renderer='templates/message.pt')
+@view_config(route_name='view_story', renderer='templates/story.jinja2')
 def view_story(request):
     story_id = request.matchdict['story_id']
-    return {'message': 'View story %s' % story_id}
+    story = DBSession.query(Story).filter(Story.id==story_id).first()
+    return {'story': story, 'story_id': story_id }
 
 
 @view_config(route_name='edit_story', renderer='templates/message.pt')
