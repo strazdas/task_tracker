@@ -18,16 +18,13 @@ from .forms import StorySchema
 
 @view_config(route_name='story_list', renderer='templates/story_list.jinja2')
 def story_list(request):
-    stories = None
-    stories = DBSession.query(Story).all()
+    stories = DBSession.query(Story).order_by('created').limit(20).all()
     return {'stories': stories}
-
 
 
 @view_config(route_name='add_story', renderer='templates/add_story.jinja2')
 def add_story(request):
     form = Form(request, schema=StorySchema())
-
     if form.validate():
         obj = form.bind(Story())
         obj.created = datetime.now()
@@ -47,12 +44,15 @@ def view_story(request):
     return {'story': story, 'story_id': story_id }
 
 
-@view_config(route_name='edit_story', renderer='templates/message.pt')
+@view_config(route_name='edit_story', renderer='templates/edit_story.jinja2')
 def edit_story(request):
     story_id = request.matchdict['story_id']
-    story = DBSession.query(Story).filter(Story.id==story_id).first()
-    form = Form(request, schema=StorySchema, obj=item)
-    return {'message': 'Editing story %s' % story_id}
+    story = DBSession.query(Story).get(story_id)
+    form = Form(request, schema=StorySchema(), obj=story)
+    return {
+        'renderer': FormRenderer(form),
+        'form': form,
+    }
 
 
 @view_config(route_name='add_task', renderer='templates/message.pt')
