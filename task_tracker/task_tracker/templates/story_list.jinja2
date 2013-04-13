@@ -1,0 +1,10 @@
+{% extends "templates/base.jinja2" %}
+{% block content %}
+    {% if stories %}
+        {% for story in stories %}
+            <li><a href="/story/{{ story.id }}">"{{ story.title }}"<a>, {{ story.estimated }}</li>
+        {% endfor %}
+    {% else %}
+        No stories exists, but you can be first to <a href="/new/story">create one</a>.
+    {% endif %}
+{% endblock %}
