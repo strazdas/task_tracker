@@ -1,5 +1,6 @@
 from pyramid.config import Configurator
 from sqlalchemy import engine_from_config
+from pyramid.session import UnencryptedCookieSessionFactoryConfig
 
 from .models import (
     DBSession,
@@ -12,8 +13,9 @@ def main(global_config, **settings):
     """
     engine = engine_from_config(settings, 'sqlalchemy.')
     DBSession.configure(bind=engine)
+    session_factory = UnencryptedCookieSessionFactoryConfig('lphfwnviqzivz')
     Base.metadata.bind = engine
-    config = Configurator(settings=settings)
+    config = Configurator(settings=settings, session_factory=session_factory)
     config.add_static_view('static', 'static', cache_max_age=3600)
     config.add_route('story_list', '/')
     config.add_route('add_story', '/new/story')
