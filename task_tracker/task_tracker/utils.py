@@ -4,6 +4,8 @@ from datetime import datetime as dt, timedelta
 
 def sum_time_spent(times_spent):
     def parse_time(time):
+        if not time:
+            return timedelta(0)
         days = 0
         if len(time.split()) > 1:
             days, time = time.split()
@@ -33,7 +35,8 @@ class DurationValidator(FancyValidator):
                 break
             except ValueError:
                 continue
-        if not time:
+
+        if time is None:
             return None
 
         hours = time.seconds / 3600
@@ -43,7 +46,7 @@ class DurationValidator(FancyValidator):
         return '%d:%02u' % (hours, minutes)
 
     def validate_python(self, value, state):
-        if not value:
+        if value is None:
             raise Invalid(self.error_message, value, state)
 
         value = value.strip()
