@@ -14,6 +14,15 @@
   <![endif]-->
 </head>
 <body>
+    <div id="nav">
+        <a href='/'>Home</a> |
+        <a href='/stats'>Stats</a> |
+        {% if user %}
+        <a href='/logout'>{{ user.username }} (logout)</a>
+        {% else %}
+        <a href='/login'>Login or register</a>
+        {% endif %}
+    <div>
     <div id="content">{% block content %}{% endblock %}</div>
 </body>
 </html>

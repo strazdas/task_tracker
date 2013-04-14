@@ -27,3 +27,12 @@ class TimeSpentSchema(Schema):
     filter_extra_fields = False
 
     duration = DurationValidator()
+
+
+class UserSchema(Schema):
+    allow_extra_fields = True
+    filter_extra_fields = False
+
+    username = validators.UnicodeString(max=255, min=1)
+    password = validators.UnicodeString(max=255, min=1)
+    password_again = validators.UnicodeString(max=255, nullable=True)

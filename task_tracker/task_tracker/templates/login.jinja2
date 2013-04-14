@@ -1,0 +1,24 @@
+{% extends "templates/base.jinja2" %}
+{% block content %}
+<ul>
+<form method='POST'>
+    <h3>Login or register</h3>
+    {% if message %}
+        <text style='color:red'>{{ message }}</text>
+    {% endif %}
+    {% if form.errors %}
+        <ul>
+        {% for field, error in form.errors.items() %}
+            <li>{{ field }}: <text style='color:red'>{{ error }}</text></li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+        <li>Username: {{ renderer.text('username', size=10) }}</li>
+        <li>Password: {{ renderer.password('password', size=15) }}
+    {{ renderer.submit("login", "Login") }}</li>
+        <li>Repeat password to register:<br> {{ renderer.password('password_again', size=15) }}
+    {{ renderer.submit("register", "Register") }}</li>
+    </ul>
+</form>
+
+{% endblock %}
