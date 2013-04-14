@@ -49,6 +49,7 @@ def view_story(request):
         task = task_form.bind(Task())
         task.story = story
         task.story_id = story_id
+        task.created = datetime.now()
         DBSession.add(task)
         return HTTPFound(location='/story/%s' % story_id)
     return {
@@ -100,11 +101,21 @@ def view_task(request):
     }
 
 
-@view_config(route_name='edit_task', renderer='templates/message.pt')
+@view_config(route_name='edit_task', renderer='templates/edit_task.jinja2')
 def edit_task(request):
     story_id = request.matchdict['story_id']
     task_id = request.matchdict['task_id']
-    return {'message': 'Edit task %s of story %s' % (task_id, story_id)}
+    task = DBSession.query(Task).get(task_id)
+    form = Form(request, schema=TaskSchema(), obj=task)
+    if request.method == 'POST' and form.validate():
+        task = form.bind(task)
+        return HTTPFound(location='/story/%s/task/%s' % (story_id, task_id))
+    return {
+        'story_id': story_id,
+        'task_id': task_id,
+        'renderer': FormRenderer(form),
+        'form': form,
+    }
 
 
 @view_config(route_name='stats', renderer='templates/message.pt')
