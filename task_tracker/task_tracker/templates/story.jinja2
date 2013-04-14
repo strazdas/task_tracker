@@ -17,6 +17,7 @@
         </table>
 
         <form method='POST'>
+            <h4>New task</h4>
             {{ renderer.csrf_token() }}
             {% if form.errors %}
                 <ul>
@@ -26,7 +27,6 @@
                 </ul>
             {% endif %}
             <ul>
-                <h4>New task</h4>
                 <li>Title: {{ renderer.text('title', size=20) }}</li>
                 <li>Estimated: {{ renderer.text('estimated', size=8) }}</li>
                 <li>Description:<br> {{ renderer.textarea('description',cols=49, rows=6) }}</li>

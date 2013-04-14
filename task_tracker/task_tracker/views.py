@@ -81,8 +81,10 @@ def view_task(request):
     story = DBSession.query(Story).get(story_id)
     task_id = request.matchdict['task_id']
     task = DBSession.query(Task).get(task_id)
-    times_spent = DBSession.query(TimeSpent).filter(TimeSpent.task_id==task_id).all()
+    times_spent = DBSession.query(TimeSpent).filter(
+                                        TimeSpent.task_id==task_id).all()
     form = Form(request, schema=TimeSpentSchema())
+
     if request.method == 'POST' and form.validate():
         time_spent = form.bind(TimeSpent())
         time_spent.task_id = task_id
