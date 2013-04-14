@@ -13,6 +13,7 @@ from .models import (
     User,
     Story,
     Task,
+    TimeSpent,
     )
 from .forms import StorySchema, TaskSchema, TimeSpentSchema
 
