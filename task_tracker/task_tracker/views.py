@@ -80,12 +80,21 @@ def view_task(request):
     story = DBSession.query(Story).get(story_id)
     task_id = request.matchdict['task_id']
     task = DBSession.query(Task).get(task_id)
+    times_spent = DBSession.query(TimeSpent).filter(TimeSpent.task_id==task_id).all()
     form = Form(request, schema=TimeSpentSchema())
     if request.method == 'POST' and form.validate():
-        pass
+        time_spent = form.bind(TimeSpent())
+        time_spent.task_id = task_id
+        time_spent.task = task
+        DBSession.add(time_spent)
+        DBSession.flush()
+        return HTTPFound(location='/story/%s/task/%s' % (story_id, task_id))
     return {
         'story': story,
+        'story_id': story_id,
         'task': task,
+        'task_id': task_id,
+        'times_spent': times_spent,
         'renderer': FormRenderer(form),
         'form': form,
     }

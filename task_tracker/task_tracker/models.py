@@ -35,9 +35,11 @@ class Task(Base):
     created = Column(DateTime)
     assigned_id = Column(Integer, ForeignKey('user.id'), nullable=True)
     story_id = Column(Integer, ForeignKey('story.id'))
+    times_spent = relationship("TimeSpent", backref="task")
 
 
 class TimeSpent(Base):
     __tablename__ = 'time_spent'
     id = Column(Integer, primary_key=True)
     duration = Column(Text)
+    task_id = Column(Integer, ForeignKey('task.id'))

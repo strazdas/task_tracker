@@ -1,5 +1,6 @@
 {% extends "templates/base.jinja2" %}
 {% block content %}
+    {% if story %}
     {% if task %}
     <ul> <h3>Task</h3> </ul>
         <table border="0">
@@ -33,6 +34,9 @@
 
     {% else %}
         Task with id="{{ task_id }}" for story with id="{{ story_id }}" does
-    not exist, but you can add <a href="/story/{{ task_id }}">a new one</a>.
+    not exist, but you can add <a href="/story/{{ story_id }}">a new one</a>.
+    {% endif %}
+    {% else %}
+        Story with id="{{ story_id }}" does not exist, but you can <a href="/new/story">create a new story</a>.
     {% endif %}
 {% endblock %}
