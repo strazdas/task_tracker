@@ -16,6 +16,7 @@ from .models import (
     TimeSpent,
     )
 from .forms import StorySchema, TaskSchema, TimeSpentSchema
+from .utils import sum_time_spent
 
 
 @view_config(route_name='story_list', renderer='templates/story_list.jinja2')
@@ -100,6 +101,7 @@ def view_task(request):
         'times_spent': times_spent,
         'renderer': FormRenderer(form),
         'form': form,
+        'total_time_spent': str(sum_time_spent(times_spent)),
     }
 
 
