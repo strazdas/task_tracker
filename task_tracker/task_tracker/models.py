@@ -11,8 +11,13 @@ Base = declarative_base()
 class User(Base):
     __tablename__ = 'user'
     id = Column(Integer, primary_key=True)
+    username = Column(Text)
+    password = Column(Text)
     stories = relationship("Story", backref="created_by")
     tasks = relationship("Task", backref="assigned")
+
+    def __repr__(self):
+        return self.username
 
 
 class Story(Base):
