@@ -62,6 +62,8 @@ def view_story(request):
     story = DBSession.query(Story).filter(Story.id==story_id).first()
     tasks = DBSession.query(Task).filter(Task.story_id==story_id).all()
     task_form = Form(request, schema=TaskSchema())
+    users = DBSession.query(User).all()
+    user_options = [(user.id, user.username) for user in users]
     if request.method == 'POST' and task_form.validate():
         task = task_form.bind(Task())
         task.story = story
@@ -76,6 +78,7 @@ def view_story(request):
         'renderer': FormRenderer(task_form),
         'form': task_form,
         'user': get_user(request),
+        'users': user_options,
     }
 
 
@@ -180,7 +183,7 @@ def login(request):
                 message = 'Passwords do not match.'
         else:
             user = DBSession.query(User).filter(User.username==username).first()
-            if user.password == password:
+            if user and user.password == password:
                 headers = remember(request, user.id)
                 return HTTPFound(location='/', headers=headers)
             else:
