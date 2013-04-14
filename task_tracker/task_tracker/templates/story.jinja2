@@ -12,7 +12,7 @@
             <tr><td align='right'>Description: </td> <td>{{ story.description }}</td></tr>
             <tr><td align='right'>Tasks: </td> <td></td></tr>
             {% for task in tasks %}
-                <tr><td align='right'></td><td><a href="/story/{{story_id}}/task/{{task.id}}">{{ task.title }}</a></td></tr>
+                <tr><td align='right'></td><td><a href="/story/{{story_id}}/task/{{task.id}}">{{ task.title }}</a>, {{ task.estimated }}</td></tr>
             {% endfor %}
         </table>
 
