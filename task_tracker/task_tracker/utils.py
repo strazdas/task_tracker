@@ -39,7 +39,7 @@ class DurationValidator(FancyValidator):
         hours = time.seconds / 3600
         minutes = time.seconds % 3600 / 60
         if days:
-            return '%d %d:%02u' % (days, hours, minutes)
+            return '%s %d:%02u' % (days, hours, minutes)
         return '%d:%02u' % (hours, minutes)
 
     def validate_python(self, value, state):
