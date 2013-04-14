@@ -132,6 +132,8 @@ def edit_task(request):
     task_id = request.matchdict['task_id']
     task = DBSession.query(Task).get(task_id)
     form = Form(request, schema=TaskSchema(), obj=task)
+    users = DBSession.query(User).all()
+    user_options = [(user.id, user.username) for user in users]
     if request.method == 'POST' and form.validate():
         task = form.bind(task)
         return HTTPFound(location='/story/%s/task/%s' % (story_id, task_id))
@@ -141,6 +143,7 @@ def edit_task(request):
         'renderer': FormRenderer(form),
         'form': form,
         'user': get_user(request),
+        'users': user_options,
     }
 
 
