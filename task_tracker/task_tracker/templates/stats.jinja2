@@ -1,0 +1,25 @@
+{% extends "templates/base.jinja2" %}
+{% block content %}
+    <form method='POST'>
+        {{ renderer.csrf_token() }}
+        {% if form.errors %}
+            <ul>
+            {% for field, error in form.errors.items() %}
+                <li>{{ field }}: <text style='color:red'>{{ error }}</text></li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+        <ul>
+            <li>Choose developer: {{ renderer.select('user_id', options=users) }}</li>
+            {{ renderer.submit("submit", "View stats") }}
+        </ul>
+    </form>
+    {% if selected_user %}
+    <table>
+        <tr><td align='right'>Developer: </td> <td>{{ selected_user}}</td></tr>
+        <tr><td align='right'>Total estimated: </td> <td>{{ total_time_estimated }}</td></tr>
+        <tr><td align='right'>Total time spent: </td> <td>{{ total_time_spent }}</td></tr>
+    </table>
+    {% endif %}
+
+{% endblock %}
