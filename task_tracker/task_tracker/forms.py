@@ -37,3 +37,10 @@ class UserSchema(Schema):
     username = validators.UnicodeString(max=255, min=1)
     password = validators.UnicodeString(max=255, min=1)
     password_again = validators.UnicodeString(max=255, nullable=True)
+
+
+class StatSchema(Schema):
+    allow_extra_fields = True
+    filter_extra_fields = False
+
+    user_id = validators.Int(nullable=True)

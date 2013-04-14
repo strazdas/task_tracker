@@ -12,7 +12,7 @@ def sum_time_spent(times_spent):
 
     total_time_spent = timedelta(0)
     for time_spent in times_spent:
-        total_time_spent += parse_time(time_spent.duration)
+        total_time_spent += parse_time(*time_spent)
     return total_time_spent
 
 

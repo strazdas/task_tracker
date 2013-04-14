@@ -31,7 +31,6 @@ def main(global_config, **settings):
     config.add_route('view_task', '/story/{story_id}/task/{task_id}')
     config.add_route('edit_task', '/story/{story_id}/task/{task_id}/edit')
     config.add_route('stats', '/stats')
-    config.add_route('view_stats', '/stats/{username}')
     config.add_route('login', '/login')
     config.add_route('logout', '/logout')
     config.scan()

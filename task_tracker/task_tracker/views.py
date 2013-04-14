@@ -16,7 +16,13 @@ from .models import (
     Task,
     TimeSpent,
     )
-from .forms import StorySchema, TaskSchema, TimeSpentSchema, UserSchema
+from .forms import (
+    StorySchema,
+    TaskSchema,
+    TimeSpentSchema,
+    UserSchema,
+    StatSchema
+    )
 from .utils import sum_time_spent
 
 
@@ -102,8 +108,9 @@ def view_task(request):
     story = DBSession.query(Story).get(story_id)
     task_id = request.matchdict['task_id']
     task = DBSession.query(Task).get(task_id)
-    times_spent = DBSession.query(TimeSpent).filter(
-                                        TimeSpent.task_id==task_id).all()
+    times_spent = DBSession.query(TimeSpent.duration).filter(
+                                    TimeSpent.task_id==task_id).all()
+    print times_spent
     form = Form(request, schema=TimeSpentSchema())
 
     if request.method == 'POST' and form.validate():
@@ -147,21 +154,31 @@ def edit_task(request):
     }
 
 
-@view_config(route_name='stats', renderer='templates/message.pt')
+@view_config(route_name='stats', renderer='templates/stats.jinja2')
 def stats(request):
+    users = DBSession.query(User).all()
+    user_options = [(user.id, user.username) for user in users]
+    form = Form(request, schema=StatSchema())
+    times_spent = []
+    times_estimated = []
+    selected_user = None
+    if request.method == 'POST' and form.validate():
+        selected_user_id = form.data['user_id']
+        selected_user = DBSession.query(User).get(selected_user_id)
+        for task in selected_user.tasks:
+            times_estimated.append((task.estimated,))
+            for time_spent in task.times_spent:
+                times_spent.append((time_spent.duration,))
     return {
-        'message': 'stats',
+        'renderer': FormRenderer(form),
+        'form': form,
         'user': get_user(request),
+        'users': user_options,
+        'total_time_estimated': str(sum_time_spent(times_estimated)),
+        'total_time_spent': str(sum_time_spent(times_spent)),
+        'selected_user': selected_user,
     }
 
-
-@view_config(route_name='view_stats', renderer='templates/message.pt')
-def view_stats(request):
-    username = request.matchdict['username']
-    return {
-        'message': 'Viewing stats for user %s' % username,
-        'user': get_user(request),
-    }
 
 @view_config(route_name='login', renderer='templates/login.jinja2')
 @forbidden_view_config(renderer='templates/login.jinja2')
