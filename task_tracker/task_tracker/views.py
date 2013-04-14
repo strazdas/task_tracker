@@ -66,7 +66,6 @@ def view_story(request):
     user_options = [(user.id, user.username) for user in users]
     if request.method == 'POST' and task_form.validate():
         task = task_form.bind(Task())
-        task.story = story
         task.story_id = story_id
         task.created = datetime.now()
         DBSession.add(task)

@@ -29,6 +29,8 @@
             <ul>
                 <li>Title: {{ renderer.text('title', size=20) }}</li>
                 <li>Estimated: {{ renderer.text('estimated', size=8) }}</li>
+                <li>Assigned to: {{ renderer.select('assigned_id',
+                options=users, selected_value=user.id) }}</li>
                 <li>Description:<br> {{ renderer.textarea('description',cols=49, rows=6) }}</li>
             {{ renderer.submit("submit", "Add new task") }}
             </ul>

@@ -20,6 +20,7 @@ class TaskSchema(Schema):
     title = validators.UnicodeString(max=255, min=1)
     description= validators.UnicodeString()
     estimated = DurationValidator()
+    assigned_id = validators.Int(nullable=True)
 
 
 class TimeSpentSchema(Schema):
