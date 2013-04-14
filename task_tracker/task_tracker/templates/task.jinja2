@@ -7,7 +7,7 @@
             <tr><td align='right'>ID: </td> <td>{{ task.id }}
             <a href="/story/{{ story_id }}/task/{{ task_id }}/edit"><button>Edit</button></a></td></tr>
             <tr><td align='right'>Title: </td> <td>{{ task.title }}</td></tr>
-            <tr><td align='right'>Story title: </td> <td>{{ story.title }}</td></tr>
+            <tr><td align='right'>Story title: </td> <td><a href='/story/{{story.id}}'>{{ story.title }}</a></td></tr>
             <tr><td align='right'>Estimated: </td> <td>{{ task.estimated }}</td></tr>
             <tr><td align='right'>Created: </td> <td>{{ task.created }}</td></tr>
             <tr><td align='right'>Assigned to: </td> <td>{{ task.assigned }}</td></tr>
