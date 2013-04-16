@@ -73,7 +73,11 @@ class FunctionalTests(unittest.TestCase):
 
     def test_stats(self):
         response = self.testapp.get('/stats', status=200)
-        self.failUnless('View stats' in response.body)
+        self.failUnless('Choose developer' in response.body)
+
+    def test_stats_post(self):
+        response = self.testapp.post('/stats', {'user_id': 1})
+        self.failUnless('3 days' in response.body)
 
     def test_login(self):
         response = self.testapp.get('/login', status=200)
