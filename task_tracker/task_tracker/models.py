@@ -48,6 +48,3 @@ class TimeSpent(Base):
     id = Column(Integer, primary_key=True)
     duration = Column(Text)
     task_id = Column(Integer, ForeignKey('task.id'))
-
-    def __repr__(self):
-        return self.duration

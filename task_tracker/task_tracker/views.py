@@ -110,7 +110,6 @@ def view_task(request):
     task = DBSession.query(Task).get(task_id)
     times_spent = DBSession.query(TimeSpent.duration).filter(
                                     TimeSpent.task_id==task_id).all()
-    print times_spent
     form = Form(request, schema=TimeSpentSchema())
 
     if request.method == 'POST' and form.validate():
