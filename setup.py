@@ -14,6 +14,8 @@ requires = [
     'pyramid_debugtoolbar',
     'zope.sqlalchemy',
     'waitress',
+    'jinja2',
+    'webtest',
     ]
 
 setup(name='task_tracker',
@@ -29,7 +31,7 @@ setup(name='task_tracker',
       author='',
       author_email='',
       url='',
-      keywords='web wsgi bfg pylons pyramid',
+      keywords='web wsgi bfg pylons pyramid task time',
       packages=find_packages(),
       include_package_data=True,
       zip_safe=False,
